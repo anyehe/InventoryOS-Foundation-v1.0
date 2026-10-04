@@ -1,0 +1,5 @@
+@extends('layouts.app')
+@section('content')
+<div class="page-head"><div><span class="eyebrow">Operations</span><h1>Returns & refunds</h1><p>Track customer returns, refund methods and stock disposition.</p></div></div>
+<div class="panel"><div class="table-wrap"><table><thead><tr><th>Reference</th><th>Sale</th><th>Refund</th><th>Method</th><th>Disposition</th><th>Processed by</th><th>Date</th></tr></thead><tbody>@forelse($returns as $return)<tr><td><strong>{{ $return->reference }}</strong></td><td>{{ $return->sale->invoice_no }}</td><td>₱{{ number_format($return->refund_amount,2) }}</td><td>{{ strtoupper($return->refund_method) }}</td><td><span class="status {{ $return->disposition === 'restock' ? 'success' : 'danger' }}">{{ ucfirst($return->disposition) }}</span></td><td>{{ $return->user?->name ?: 'System' }}</td><td>{{ $return->returned_at->format('M d, Y h:i A') }}</td></tr>@empty<tr><td colspan="7" class="empty">No returns recorded.</td></tr>@endforelse</tbody></table></div><div class="pagination">{{ $returns->links() }}</div></div>
+@endsection

@@ -1,0 +1,1 @@
+<?php namespace App\Models; use Illuminate\Database\Eloquent\Model; class Unit extends Model { protected $fillable=['name','short_name','conversion_rate']; protected $casts=['conversion_rate'=>'decimal:4']; public function products(){return $this->hasMany(Product::class);} }

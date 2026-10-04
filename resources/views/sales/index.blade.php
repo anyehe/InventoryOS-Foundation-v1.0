@@ -1,0 +1,5 @@
+@extends('layouts.app')
+@section('content')
+<div class="page-head"><div><span class="eyebrow">Sales</span><h1>Transactions</h1><p>Track completed sales and open any receipt.</p></div><a class="btn primary" href="{{ route('sales.pos') }}">Open POS</a></div>
+<div class="panel"><div class="table-wrap"><table><thead><tr><th>Invoice</th><th>Warehouse</th><th>Customer</th><th>Total</th><th>Status</th><th>Date</th><th></th></tr></thead><tbody>@forelse($sales as $sale)<tr><td><strong>{{ $sale->invoice_no }}</strong></td><td>{{ $sale->warehouse->name }}</td><td>{{ $sale->customer_name ?: 'Walk-in' }}</td><td>₱{{ number_format($sale->total,2) }}</td><td><span class="status success">{{ ucfirst($sale->status) }}</span></td><td>{{ $sale->sold_at->format('M d, Y h:i A') }}</td><td><a class="btn small" href="{{ route('sales.show',$sale) }}">View</a><a class="btn small" href="{{ route('operations.returns.create',$sale) }}">Return</a></td></tr>@empty<tr><td colspan="7" class="empty">No sales yet.</td></tr>@endforelse</tbody></table></div><div class="pagination">{{ $sales->links() }}</div></div>
+@endsection

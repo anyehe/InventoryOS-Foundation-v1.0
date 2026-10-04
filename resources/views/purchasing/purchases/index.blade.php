@@ -1,0 +1,6 @@
+@extends('layouts.app')
+@section('content')
+<div class="page-head"><div><div class="eyebrow">Purchasing</div><h1>Purchase orders</h1><p>Track supplier orders, receiving, and returns.</p></div><a class="btn primary" href="{{ route('purchases.create') }}">+ New purchase</a></div>
+@if(session('success'))<div class="notice success">{{ session('success') }}</div>@endif
+<div class="panel"><div class="table-wrap"><table><thead><tr><th>Purchase</th><th>Supplier</th><th>Warehouse</th><th>Status</th><th>Total</th><th>Expected</th><th></th></tr></thead><tbody>@forelse($purchases as $p)<tr><td><strong>{{ $p->purchase_no }}</strong><small>{{ $p->created_at->format('M d, Y H:i') }}</small></td><td>{{ $p->supplier->name }}</td><td>{{ $p->warehouse->name }}</td><td><span class="status {{ in_array($p->status,['received','partial']) ? 'success' : '' }}">{{ ucfirst($p->status) }}</span></td><td>₱{{ number_format($p->total,2) }}</td><td>{{ $p->expected_at?->format('M d, Y') ?: '—' }}</td><td><a class="btn small" href="{{ route('purchases.show',$p) }}">Open</a></td></tr>@empty<tr><td colspan="7" class="empty">No purchase orders yet.</td></tr>@endforelse</tbody></table></div><div class="pagination">{{ $purchases->links() }}</div></div>
+@endsection
